@@ -3,7 +3,7 @@ var InputText = document.querySelector(".inputTEXT"); //사용자가 입력한 �
 var PReasult1 = document.querySelector("#result1");
 var PReasult2 = document.querySelector("#result2");
 var NextBtn = document.querySelector("#encryptionBtn");
-var zCheck = new Array();
+var ZIndex = new Array();
 var RealKey;
 var oddFlag;
 
@@ -15,8 +15,12 @@ for (i = 0; i <=4; i++){
 function init(){
     //키 셋팅 및 board 셋팅
     SettingBoard();
+    
+    // 암호화된 문장
     var EncryptionResult = strEncryption(RealKey, SettingStr());
+    // 복호화된 문장
     var DecryptionResult = strDecryption(RealKey, BlankDelete(EncryptionResult));
+
     //숨기기
     KeyText.style.display = "none";
     InputText.style.display = "none";
@@ -27,27 +31,30 @@ function init(){
     NextBtn.style.display = "none";
 }
 
+// 암호화할 때 평문 규칙 처리
 function SettingStr(){
     var TEXTValueText = InputText.value;
-
+    // 평문 빈칸 없애기
     TEXTValueText = BlankDelete(TEXTValueText);
     
+    //FOR문을 돌려 Z인것은 Q로 바꾸기 복호화 할 때 써야 하니까 ZIndex에 저장하기
     for( let i = 0 ; i < TEXTValueText.length; i++ ) 
     {
-        if(TEXTValueText.charAt(i)=='z') //z를 q로 바꿔줘서 처리함.
+        if(TEXTValueText[i]=='z') //z를 q로 바꿔줘서 처리함.
         {
             TEXTValueText = TEXTValueText.substring(0,i)+'q'+TEXTValueText.substring(i+1,TEXTValueText.length);
-            zCheck.push(1);
+            ZIndex.push(1);
         }
         else 
         {
-            zCheck.push(0);
+            ZIndex.push(0);
         }
     }
+    // 정리된? 평문 
     return TEXTValueText;
 }
 
-//RealKey의 값을 
+//보드셋팅 및 key값 가져오기
 function SettingBoard(){
     //값 가져오기
     var KeyValueText = KeyText.value;
@@ -66,8 +73,8 @@ function SettingBoard(){
 
         //board [5][5] 배열에 Real Key 넣기
         board = RealKey.reduce((RealKey, number, index) => {
-        const criteria = 5;
-        const arrayIndex = Math.floor(index / criteria);
+            const criteria = 5;
+            const arrayIndex = Math.floor(index / criteria);
         if (!RealKey[arrayIndex]) {
             RealKey[arrayIndex] = [];
         }
@@ -94,8 +101,8 @@ function overlap(overlapText){
 
 // 암호화
 function strEncryption(key, str){
-        var playFair = new Array();
-        var encPlayFair = new Array();
+        var PrevChange = new Array();
+        var encChange = new Array();
         
 		let x1 = 0 , x2 = 0 , y1 = 0, y2 = 0;
 		var EncryptionStr ="";
@@ -118,28 +125,28 @@ function strEncryption(key, str){
                     tempArray[1] = 'x'; 
                     oddFlag = true;
                 }
-			playFair.push(tempArray);
+                PrevChange.push(tempArray);
 		}
         
         // Mapping된 글자 출력
-		for(var i = 0 ; i < playFair.length; i++ )
+		for(var i = 0 ; i < PrevChange.length; i++ )
 		{
-			console.log(playFair[i][0]+""+playFair[i][1]+" ");
+			console.log(PrevChange[i][0]+""+PrevChange[i][1]+" ");
 		}
 		
-		for(var i = 0 ; i < playFair.length; i++ )
+		for(var i = 0 ; i < PrevChange.length; i++ )
 		{
             var tempArray = new Array();
 			for( var j = 0 ; j < 5; j++ ) //쌍자암호의 각각 위치체크
 			{
 				for( var k = 0 ; k < 5; k++)
 				{   
-					if(board[j][k] == playFair[i][0])
+					if(board[j][k] == PrevChange[i][0])
 					{
 						x1 = j;
                         y1 = k;
 					}
-					if(board[j][k] == playFair[i][1])
+					if(board[j][k] == PrevChange[i][1])
 					{
 						x2 = j;
                         y2 = k;
@@ -162,16 +169,16 @@ function strEncryption(key, str){
 				tempArray[0] = board[x2][y1];
 				tempArray[1] = board[x1][y2];
 			}
-			encPlayFair.push(tempArray);
+			encChange.push(tempArray);
 			
 		}
 		
-		for(let i = 0 ; i < encPlayFair.length; i++)
+		for(let i = 0 ; i < encChange.length; i++)
 		{
-			EncryptionStr += encPlayFair[i][0]+""+encPlayFair[i][1]+" ";
+			EncryptionStr += encChange[i][0]+""+encChange[i][1]+" ";
 		}
 
-        console.log(encPlayFair);
+        console.log(encChange);
 
 		return EncryptionStr;
 }
@@ -179,8 +186,8 @@ function strEncryption(key, str){
 
 // 복호화
 function strDecryption(key, str){
-    var playFair = new Array(); //바꾸기 전 쌍자암호를 저장할 곳
-    var decPlayFair = new Array(); //바꾼 후의 쌍자암호 저장할 곳
+    var PrevChange = new Array(); //바꾸기 전 
+    var decChange = new Array(); //바꾼 후
     var x1 = 0 , x2 = 0 , y1 = 0, y2 = 0; //쌍자 암호 두 글자의 각각의 행,열 값
     var DecryptionStr = new Array();
     
@@ -189,22 +196,22 @@ function strDecryption(key, str){
         var tempArr = new Array();
         tempArr[0] = str.charAt(i);
         tempArr[1] = str.charAt(i+1);
-        playFair.push(tempArr);
+        PrevChange.push(tempArr);
     }
     
-    for(let i = 0 ; i < playFair.length ; i++ )
+    for(let i = 0 ; i < PrevChange.length ; i++ )
     {
         var tempArr = new Array();
         for( let j = 0 ; j < board.length; j++ )
         {
             for( let k = 0 ; k < board[j].length; k++ )
             {
-                if(board[j][k] == playFair[i][0])
+                if(board[j][k] == PrevChange[i][0])
                 {
                     x1 = j;
                     y1 = k;
                 }
-                else if(board[j][k] == playFair[i][1])
+                else if(board[j][k] == PrevChange[i][1])
                 {
                     x2 = j;
                     y2 = k;
@@ -228,33 +235,35 @@ function strDecryption(key, str){
             tempArr[1] = board[x1][y2];
         }
         
-        decPlayFair.push(tempArr);
+        decChange.push(tempArr);
     }
     
-    for(let i = 0 ; i < decPlayFair.length; i++) //중복 문자열 돌려놓음
+    for(let i = 0 ; i < decChange.length; i++) //중복 문자열 돌려놓음
     {
-        if(i!=decPlayFair.length-1 && decPlayFair[i][1]=='x' 
-                && decPlayFair[i][0]==decPlayFair[i+1][0])
+        if(i!=decChange.length-1 && decChange[i][1]=='x' 
+                && decChange[i][0]==decChange[i+1][0])
         {	
-            DecryptionStr += decPlayFair[i][0];
+            DecryptionStr += decChange[i][0];
         }
+
         else
         {
-            DecryptionStr += decPlayFair[i][0]+""+decPlayFair[i][1];
+            DecryptionStr += decChange[i][0]+""+decChange[i][1];
         }
     }
-    
-        for(let j = 0; j < zCheck.length; j++) // q로 바꿨던 부분 z로 바꾸기
-            if(zCheck[j] === 1 ){
-                DecryptionStr.splice(j, 1, 'z');
-                console.log(DecryptionStr);
-            }
 
+    // 암호화 할 때 Q로 바꾼 Z 되돌리기
+    for(let i = 0 ; i < ZIndex.length; i++)
+    {
+        if(ZIndex[i] == '1'){
+            DecryptionStr = DecryptionStr.substring(0,i)+'z'+DecryptionStr.substring(i+1,DecryptionStr.length);
+        }
+    }
     
     //마지막에 한 글자였을 때 
     if(oddFlag){
         console.log("마지막에 한 글자였을 때");
-        DecryptionStr = DecryptionStr.substring( 0, DecryptionStr.length-1);
+        DecryptionStr = DecryptionStr.substring( 0 , DecryptionStr.length-1);
     } 
 
     return DecryptionStr;

@@ -24,7 +24,7 @@ function constructKeyMatrix(key) {
     }
 
     }
-    return key;
+    return key;s
 }
 
 //중복제거 함수
