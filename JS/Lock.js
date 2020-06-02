@@ -182,7 +182,7 @@ function strDecryption(key, str){
     var playFair = new Array(); //바꾸기 전 쌍자암호를 저장할 곳
     var decPlayFair = new Array(); //바꾼 후의 쌍자암호 저장할 곳
     var x1 = 0 , x2 = 0 , y1 = 0, y2 = 0; //쌍자 암호 두 글자의 각각의 행,열 값
-    var DecryptionStr ="";
+    var DecryptionStr = new Array();
     
     for( let i = 0; i < str.length; i+=2 )
     {
@@ -244,16 +244,17 @@ function strDecryption(key, str){
         }
     }
     
-    for(let i = 0; i < zCheck.length; i++) //z위치 찾아서 q로 돌려놓음
-    {
-        if( zCheck[i] === 1 ) {
-            DecryptionStr = DecryptionStr.substring(i,1) + 'z';
-        }
-    }
+        for(let j = 0; j < zCheck.length; j++) // q로 바꿨던 부분 z로 바꾸기
+            if(zCheck[j] === 1 ){
+                DecryptionStr.splice(j, 1, 'z');
+                console.log(DecryptionStr);
+            }
+
     
     //마지막에 한 글자였을 때 
     if(oddFlag){
-        DecryptionStr = DecryptionStr.substring(0,DecryptionStr.length-1);
+        console.log("마지막에 한 글자였을 때");
+        DecryptionStr = DecryptionStr.substring( 0, DecryptionStr.length-1);
     } 
 
     return DecryptionStr;
