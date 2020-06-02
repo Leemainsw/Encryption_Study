@@ -4,22 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="CSS/index.css">
-    <title>Document</title>
+    <title>복호화</title>
 </head>
 <body>
     <div id="wrap">
         <div id="header">
-            <a href="index.html"><h1>복호화</h1></a>
+                <a href="index.html"><h1>복호화</h1></a>
         </div>
         <hr>
         <div id="content">
             <div id="input">
                 <input type="text" class="inputKey" placeholder="암호키를 입력하세요.">
-                <p></p>
+                <P id="result"></P>
                 <input type="text" class="inputTEXT" placeholder="암호문을 입력하세요."> 
             </div>
             
-            <a href="result.html"><button class="next round" type="submit" onclick="">Next</button></a>
+            <button class="next round" type="submit" id="encryptionBtn" onclick="init()">Next</button>
         </div>
     </div>
     <script src="JS/Key.js"></script>

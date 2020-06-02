@@ -96,7 +96,6 @@ public class mirim {
 		
 		for(int i = 0 ; i < playFair.size() ; i++ )
 		{
-
 			char[] tmpArr = new char[2];
 			for( int j = 0 ; j < alphabetBoard.length ; j++ )
 			{
@@ -153,7 +152,7 @@ public class mirim {
 		for(int i = 0 ; i < zCheck.length() ; i++ )//z위치 찾아서 q로 돌려놓음
 		{
 			if( zCheck.charAt(i) == '1' ) 
-				decStr = decStr.substring(0,i)+'z'+decStr.substring(i+1,decStr.length());
+				decStr = decStr.substring(0,i)+'z' + decStr.substring(i+1,decStr.length());
 			
 		}
 		

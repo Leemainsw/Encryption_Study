@@ -29,25 +29,15 @@ h1{
     text-align: center;
 }
 
-.Lock{
+.LockKey{
     position: absolute;
     display: inline-block;
     width: 500px;
     height: 200px;
     font-size: 40px;
-    left: 60%;
     margin-top: 10%;
-    background-color: white;
-}
-
-.Key{  
-    position: absolute;
-    display: inline-block;
-    width: 500px;
-    height: 200px;
-    font-size: 40px;
-    right: 60%;
-    margin-top: 10%;
+    right: 50%;
+    transform: translateX(50%);
     background-color: white;
 }
 
@@ -85,4 +75,14 @@ input{
 .next button{
     background: none;
     border: none;
+}
+
+#result1{
+    font-size: 50px;
+    font-weight: bold;
+}
+
+#result2{
+    font-size: 50px;
+    font-weight: bold;
 }

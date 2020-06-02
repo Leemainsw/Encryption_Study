@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="CSS/index.css">
-    <title>Document</title>
+    <title>암호화</title>
 </head>
 <body>
     <div id="wrap">
@@ -15,11 +15,12 @@
         <div id="content">
             <div id="input">
                 <input type="text" class="inputKey" placeholder="암호키를 입력하세요.">
-                <p></p>
+                <P id="result1"></P>
+                <P id="result2"></P>
                 <input type="text" class="inputTEXT" placeholder="평문을 입력하세요."> 
             </div>
             
-            <button class="next round" type="submit" name="encryptionBtn" onclick="init()">Next</button>
+            <button class="next round" type="submit" id="encryptionBtn" onclick="init()">Next</button>
         </div>
     </div>
     <script src="JS/Lock.js"></script>
